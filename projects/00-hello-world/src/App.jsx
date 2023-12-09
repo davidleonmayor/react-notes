@@ -1,7 +1,30 @@
 import { useState } from 'react'
-import './App.css'
-
 import PropTypes from 'prop-types'
+import './App.css'
+import { TwitterFollowCard } from './TwitterFollowCard.jsx'
+
+const users = [
+  {
+    userName: 'midudev',
+    name: 'Miguel Ángel Durán',
+    isFollowing: true
+  },
+  {
+    userName: 'pheralb',
+    name: 'Pablo H.',
+    isFollowing: false
+  },
+  {
+    userName: 'PacoHdezs',
+    name: 'Paco Hdez',
+    isFollowing: true
+  },
+  {
+    userName: 'TMChein',
+    name: 'Tomas',
+    isFollowing: false
+  }
+]
 
 const mockData = [
   { nameSection: "backend",
@@ -19,9 +42,10 @@ const mockData = [
     ],
   }
 ]
-
-const Room = ({ name, url }) => (
-  <li className="room">
+// 1. Component
+// Re-useable fragment of code that returns diferent results based on the props
+const Room = ({ name, url }) => ( // 2. Props
+   <li className="room">         {/* Data passed to the component that can be used. */}
     <img
       src={url}
       alt="avatar"
@@ -36,6 +60,8 @@ Room.propTypes =  {
 }
 
 const Card = ({ name, rooms }) => {
+  // 3. Hook
+  // Functionalities provided by React for implementation
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = () => setIsOpen(!isOpen);
@@ -63,14 +89,29 @@ Card.propTypes =  {
 
 function App() {
   return (
-    <>
-      <h1>Rooms</h1>
-      <div>
-        {mockData.map((item, index) => (
-          <Card key={index} name={item.nameSection} rooms={item.roomsSection} />
-        ))}
-      </div>
-    </>
+    <main>
+      <section>
+        <h1>Rooms</h1>
+        <div>
+          {mockData.map((item, index) => (
+            <Card key={index} name={item.nameSection} rooms={item.roomsSection} />
+          ))}
+        </div>
+      </section>
+      <section className='App'>
+        {
+          users.map(({ userName, name, isFollowing }) => (
+            <TwitterFollowCard
+              key={userName}
+              userName={userName}
+              initialIsFollowing={isFollowing}
+            >
+              {name}
+            </TwitterFollowCard>
+          ))
+        }
+      </section>
+    </main>
   )
 }
 export default App
