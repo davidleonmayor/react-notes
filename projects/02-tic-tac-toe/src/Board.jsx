@@ -15,7 +15,11 @@ const winningCombinations = [
   [2, 4, 6], // diagonal
 ];
 
+<<<<<<< HEAD
 function Square({ id, value, grid, turn, winerPlayer, seyWinner }) {
+=======
+function Square({ id, value, grid, turn, seyWinner }) {
+>>>>>>> cf31d2c6661e72ea15db7af5e58842d71e2e6922
   const [squares, updateGrid] = grid;
   const [currentTurn, updateTurn] = turn;
 
@@ -72,7 +76,11 @@ export  function Board() {
     <span>
       <section className="board">
         {squares.map((value, index) =>
+<<<<<<< HEAD
           <Square key={index} id={index} value={value} grid={[squares, setSquares]} turn={[turn, setTurn]} winerPlayer={winner} seyWinner={setWinner} />
+=======
+          <Square key={index} id={index} value={value} grid={[squares, setSquares]} turn={[turn, setTurn]} seyWinner={setWinner} />
+>>>>>>> cf31d2c6661e72ea15db7af5e58842d71e2e6922
         )}
       </section>
       <p>Winer: {winner}</p>
