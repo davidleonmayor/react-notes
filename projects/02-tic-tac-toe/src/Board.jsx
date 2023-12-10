@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Board.css";
 
 
@@ -15,9 +15,13 @@ const winningCombinations = [
   [2, 4, 6], // diagonal
 ];
 
-function Square({ id, value, grid, turn }) {
+function Square({ id, value, grid, turn, seyWinner }) {
   const [squares, updateGrid] = grid;
   const [currentTurn, updateTurn] = turn;
+
+  useEffect(() => {
+    checkWinner();
+  }, [squares]);
   
   const handleClick = () => {
     // si el cuadrado ya esta seleccionado no hacer nada
@@ -33,6 +37,17 @@ function Square({ id, value, grid, turn }) {
         newGrid[id] = "X";
         updateGrid(newGrid);
         updateTurn(0);
+      }
+    }
+    checkWinner()
+  }
+
+  // comprobar si hay un ganador
+  const checkWinner = () => {
+    for (let i=0; i<winningCombinations.length; i++) {
+      const [a, b, c] = winningCombinations[i];
+      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+        seyWinner(squares[a]);
       }
     }
   }
@@ -54,10 +69,13 @@ export  function Board() {
   const [winner, setWinner] = useState(null)
 
   return (
-    <section className="board">
-      {squares.map((value, index) =>
-        <Square key={index} id={index} value={value} grid={[squares, setSquares]} turn={[turn, setTurn]} />
-      )}
-    </section>
+    <span>
+      <section className="board">
+        {squares.map((value, index) =>
+          <Square key={index} id={index} value={value} grid={[squares, setSquares]} turn={[turn, setTurn]} seyWinner={setWinner} />
+        )}
+      </section>
+      <p>Winer: {winner}</p>
+    </span>
   )
 }
