@@ -1,16 +1,20 @@
 // import { useState } from "react";
 import './WinnerModal.css'
 
-export default function WinnerModal({ show, resetGame, winner}) {
-  const [showModal, setShowModal] = show;
+export default function WinnerModal({ modal, winner, setWinner, resetGame}) {
+  const [ showModal, setShowModal ] = modal; 
+  const [ winnerPlayer ] = winner;
+  // const [setSquares] = grid;
 
   const handleModal = (show) => {
     setShowModal(!show);
   }
+
   // resetear el juego
   const handleResetGame = () => {
-    resetGame(true);
-    setShowModal(false);
+    setShowModal(false); // ocultar el modal
+    resetGame() // resetear el tablero
+    setWinner(null); // resetear el ganador
   }
 
   return (

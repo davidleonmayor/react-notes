@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import "./Board.css";
 
-
-// tabla
-const grid = Array(9).fill(null);
 const winningCombinations = [
   [0, 1, 2], // primera fila
   [3, 4, 5], // segunda fila
@@ -15,14 +12,11 @@ const winningCombinations = [
   [2, 4, 6], // diagonal
 ];
 
-function Square({ id, value, grid, turn, winerPlayer, seyWinner, show, reset }) {
+function Square({ id, value, grid, turn, winnerPlayer, seyWinner, modal /*, reset*/ }) {
   const [squares, updateGrid] = grid;
   const [currentTurn, updateTurn] = turn;
 
-  // resetear el juego
-  // const [resetGame, setResetGame] = reset;
-  const [showModal, setShowModal] = show;
-
+  const [showModal, setShowModal] = modal;
 
   useEffect(() => {
     checkWinner();
@@ -30,7 +24,7 @@ function Square({ id, value, grid, turn, winerPlayer, seyWinner, show, reset }) 
   
   const handleClick = () => {
     // si el cuadrado ya esta seleccionado no hacer nada
-    if (value || winerPlayer) return;
+    if (value || winnerPlayer) return;
     else {
       if (currentTurn === 0) {
         const newGrid = [...squares];
@@ -56,6 +50,12 @@ function Square({ id, value, grid, turn, winerPlayer, seyWinner, show, reset }) 
         setShowModal(true);
       }
     }
+
+    // Check for a tie
+    if (squares.every(square => square !== null)) {
+      seyWinner('Empate');
+      setShowModal(true);
+    }
   }
 
   return (
@@ -68,11 +68,11 @@ function Square({ id, value, grid, turn, winerPlayer, seyWinner, show, reset }) 
   )
 }
 
-export  function Board({ show, reset, winnerState }) {
+export  function Board({ grid, modal, winner }) {
   // para validar si la regilla ya a sido toda completada
-  const [squares, setSquares] = useState(grid)
+  const [squares, setSquares] = grid
   const [turn, setTurn] = useState(0)
-  const [winner, setWinner] = winnerState;
+  const [winnerPlayer, setWinner] = winner;
 
   return (
     <span>
@@ -84,10 +84,10 @@ export  function Board({ show, reset, winnerState }) {
             value={value}
             grid={[squares, setSquares]}
             turn={[turn, setTurn]}
-            winerPlayer={winner}
+            winnerPlayer={winnerPlayer}
             seyWinner={setWinner}
-            show={show}
-            reset={reset}
+            modal={modal}
+            // reset={reset}
             />
         )}
       </section>
