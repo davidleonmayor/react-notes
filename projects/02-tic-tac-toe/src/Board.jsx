@@ -15,9 +15,14 @@ const winningCombinations = [
   [2, 4, 6], // diagonal
 ];
 
-function Square({ id, value, grid, turn, winerPlayer, seyWinner }) {
+function Square({ id, value, grid, turn, winerPlayer, seyWinner, show, reset }) {
   const [squares, updateGrid] = grid;
   const [currentTurn, updateTurn] = turn;
+
+  // resetear el juego
+  // const [resetGame, setResetGame] = reset;
+  const [showModal, setShowModal] = show;
+
 
   useEffect(() => {
     checkWinner();
@@ -48,6 +53,7 @@ function Square({ id, value, grid, turn, winerPlayer, seyWinner }) {
       const [a, b, c] = winningCombinations[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
         seyWinner(squares[a]);
+        setShowModal(true);
       }
     }
   }
@@ -62,17 +68,27 @@ function Square({ id, value, grid, turn, winerPlayer, seyWinner }) {
   )
 }
 
-export  function Board() {
+export  function Board({ show, reset, winnerState }) {
   // para validar si la regilla ya a sido toda completada
   const [squares, setSquares] = useState(grid)
   const [turn, setTurn] = useState(0)
-  const [winner, setWinner] = useState(null)
+  const [winner, setWinner] = winnerState;
 
   return (
     <span>
       <section className="board">
         {squares.map((value, index) =>
-          <Square key={index} id={index} value={value} grid={[squares, setSquares]} turn={[turn, setTurn]} winerPlayer={winner} seyWinner={setWinner} />
+          <Square
+            key={index}
+            id={index}
+            value={value}
+            grid={[squares, setSquares]}
+            turn={[turn, setTurn]}
+            winerPlayer={winner}
+            seyWinner={setWinner}
+            show={show}
+            reset={reset}
+            />
         )}
       </section>
       <p>Winer: {winner}</p>
