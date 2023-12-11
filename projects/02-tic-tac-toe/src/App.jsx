@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { Board } from './Board'
 import WinnerModal  from './WinnerModal'
+// import MiduSolution  from './midu/Solution'
+import MiduSolution  from './midu-solution/Solution'
+
 import './Board.css'
 import './App.css'
 
@@ -17,12 +20,17 @@ function App() {
     setWinnerPlayer(null);
   };
 
-  // TODO: resetear el juego
   return (
     <main>
-      <h1>Tic Tac Toe</h1>
-      <Board grid={[squares, setSquares]} modal={[showModal, setShowModal]} winner={[winnerPlayer, setWinnerPlayer]} />
-      <WinnerModal modal={[showModal, setShowModal]}  winner={[winnerPlayer, setWinnerPlayer]} resetGame={resetGame} />
+      <section>
+        <h1>Tic Tac Toe</h1>
+        <Board grid={[squares, setSquares]} modal={[showModal, setShowModal]} winner={[winnerPlayer, setWinnerPlayer]} />
+        <WinnerModal modal={[showModal, setShowModal]}  winner={[winnerPlayer, setWinnerPlayer]} resetGame={resetGame} />
+      </section>
+      <section>
+        <h1>Midu solution</h1>
+        {/* <MiduSolution /> */}
+      </section>
     </main>
   )
 }
