@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './App.css';
 
 const RANDOM_FACT_URL = 'https://catfact.ninja/fact';
