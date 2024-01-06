@@ -1,51 +1,40 @@
-import { useRef, useEffect, useState } from 'react';
-import getMovies from './services/getMovies';
-import Movie from './components/Movie';
-// import SearchVar from './components/SearchVar';
-import MOCK from "./mock/movies";
+import { useRef, useEffect, useState } from "react";
+import fetchMovies from "./services/fetchMovies";
+import Movies from "./components/Movies";
 
 function App() {
   const [movies, setMovies] = useState([]);
-  const [searchValue, setSearchValue] = useState('')
-	const firstTimeFocus = useRef(null)
+  const [searchValue, setSearchValue] = useState("");
+  const [loading, setLoading] = useState(false); // new state for loading
+  const firstTimeFocus = useRef(null);
 
-	// focus on the input when the component is mounted for the first time
-	useEffect(() => {
-		if (firstTimeFocus.current) {
-      firstTimeFocus.current.focus()
-      return
-    }
-	}, [])
-
-  // render movies for the first time
   useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const data = await getMovies("cat");
-        data.forEach((item, index) => {
-          console.log(index, item)
-        })
-
-        setMovies(data);
-      } catch (error) {
-        console.error(error);
-      }
+    if (firstTimeFocus.current) {
+      firstTimeFocus.current.focus();
+      return;
     }
-
-    fetchMovies();
   }, []);
 
-
   const handleSearchInputChanges = (e) => {
-    setSearchValue(e.target.value)
-  }
+    setSearchValue(e.target.value);
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-		// usar el custom hook para pedir datos y luego actualizar el estado de la app
-    // useGetMovies("cat")
-		// setSearchValue('')
-  }
+  const getMovies = async () => {
+    try {
+      setLoading(true); // set loading to true when the fetch starts
+      const result = await fetchMovies(searchValue);
+      setLoading(false); // set loading to false when the fetch ends
+      return result;
+    } catch (error) {
+      setLoading(false); // set loading to false when there is an error
+      console.error(error);
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setMovies(await getMovies());
+  };
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -57,13 +46,13 @@ function App() {
             value={searchValue}
             type="text"
           />
-          <button type="submit" onClick={handleSubmit} className="">Search</button>
+          <button type="submit" onClick={handleSubmit} className="">
+            Search
+          </button>
         </form>
       </header>
-      <main>
-        {/* TODO: change key to id prop */}
-        {movies.map((item, index) => <Movie key={index} {...item} />)}
-        {/* <Movies></Movies> */}
+      <main className="w-full">
+        {loading ? <p>Loading...</p> : <Movies movies={movies} />}
       </main>
     </div>
   );
