@@ -1,8 +1,26 @@
+export default function SearchForm({
+  onSearchInputChange,
+  onSubmit,
+  searchValue,
+  inputRef,
+}) {
+  return (
+    <form className="flex justify-between p-2" onSubmit={onSubmit}>
+      <input
+        ref={inputRef}
+        onChange={onSearchInputChange}
+        value={searchValue}
+        type="text"
+      />
+      <button type="submit">Search</button>
+    </form>
+  );
+}
+
 // import { useState, useRef, useEffect, useContext } from 'react'
 // import { ThemeContext } from '../App'
 
 // import useGetMovies from './services/useGetMovies';
-
 
 // export default function SearchVar() {
 //   const [searchValue, setSearchValue] = useState('')
