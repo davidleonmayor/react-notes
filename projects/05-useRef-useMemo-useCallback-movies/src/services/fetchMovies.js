@@ -32,5 +32,6 @@ function mapData(movie) {
     title: movie.Title,
     year: movie.Year,
     image: movie.Poster,
+    category: movie.Type,
   };
 }

@@ -1,70 +1,15 @@
-import React, { useRef, useEffect, useState } from "react";
-import fetchMovies from "./services/fetchMovies";
+import { useRef, useState } from "react";
 import Movies from "./components/Movies";
 import SearchForm from "./components/SearchForm";
+import useFocusEffect from "./hooks/useFocusEffect";
+import useMovies from "./hooks/useMovies";
 
-const useFocusEffect = (ref) => {
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.focus();
-    }
-  }, [ref]);
-};
-
-const useMovies = () => {
-  const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const lastSearch = useRef("");
-
-  const getMovies = async (searchValue) => {
-    try {
-      setLoading(true);
-      const result = await fetchMovies(searchValue);
-      setLoading(false);
-      return result;
-    } catch (error) {
-      setLoading(false);
-      console.error(error);
-    }
-  };
-
-  const searchMovies = async (searchValue) => {
-    if (searchValue.trim() === "") return;
-
-    if (searchValue.trim() !== lastSearch.current) {
-      lastSearch.current = searchValue.trim();
-      setMovies(await getMovies(searchValue));
-    } else {
-      console.log(
-        "No se realiza la petición porque la cadena de búsqueda es la misma"
-      );
-    }
-  };
-
-  return { movies, loading, searchMovies };
-};
-
-// const SearchForm = ({
-//   onSearchInputChange,
-//   onSubmit,
-//   searchValue,
-//   inputRef,
-// }) => (
-//   <form className="flex justify-between p-2" onSubmit={onSubmit}>
-//     <input
-//       ref={inputRef}
-//       onChange={onSearchInputChange}
-//       value={searchValue}
-//       type="text"
-//     />
-//     <button type="submit">Search</button>
-//   </form>
-// );
-
+// TODO: 1. handle list of movies be alphabetical order or not
+// separar el formulario sin pasar para metros en la utilizacion del compoenete, realizar hooks personalizados para encapsular la logica
 export default function App() {
-  const firstTimeFocus = useRef(null);
-  const { movies, loading, searchMovies } = useMovies();
-  const [searchValue, setSearchValue] = useState("");
+  const firstTimeFocus = useRef(null); // del form
+  const { movies, loading, getMovies } = useMovies();
+  const [searchValue, setSearchValue] = useState(""); // del form
 
   useFocusEffect(firstTimeFocus);
 
@@ -74,7 +19,7 @@ export default function App() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await searchMovies(searchValue);
+    await getMovies(searchValue);
   };
 
   return (
