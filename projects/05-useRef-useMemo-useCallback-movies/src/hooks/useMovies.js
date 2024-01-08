@@ -1,13 +1,13 @@
 import { useState, useRef } from "react";
 import fetchMovies from "../services/fetchMovies";
 
+// Gancho personalizado para películas
 export default function useMovies() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const lastSearch = useRef("");
 
   const searchMovies = async (searchValue) => {
-    //2
     try {
       setLoading(true);
       const result = await fetchMovies(searchValue);
