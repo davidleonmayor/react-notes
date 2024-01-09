@@ -1,41 +1,37 @@
-import { useState, useRef } from "react";
-import fetchMovies from "../services/fetchMovies";
+import { useRef, useState, useMemo, useCallback } from "react";
+import { searchMovies } from "../services/movies.js";
 
-// Gancho personalizado para películas
-export default function useMovies() {
+export function useMovies({ search, sort }) {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
-  const lastSearch = useRef("");
+  // el error no se usa pero puedes implementarlo
+  // si quieres:
+  const [, setError] = useState(null);
+  const previousSearch = useRef(search);
 
-  const searchMovies = async (searchValue) => {
+  const getMovies = useCallback(async ({ search }) => {
+    if (search === previousSearch.current) return;
+    // search es ''
+
     try {
       setLoading(true);
-      const result = await fetchMovies(searchValue);
+      setError(null);
+      previousSearch.current = search;
+      const newMovies = await searchMovies({ search });
+      setMovies(newMovies);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      // tanto en el try como en el catch
       setLoading(false);
-      return result;
-    } catch (error) {
-      setLoading(false);
-      console.error(error);
     }
-  };
+  }, []);
 
-  const getMovies = async (searchValue) => {
-    if (searchValue.trim() === "") {
-      console.info(
-        "No se realiza la petición porque la cadena de búsqueda está vacía"
-      );
-      return;
-    }
-    if (searchValue.trim() === lastSearch.current) {
-      console.info(
-        "No se realiza la petición porque la cadena de búsqueda es la misma"
-      );
-      return;
-    }
+  const sortedMovies = useMemo(() => {
+    return sort
+      ? [...movies].sort((a, b) => a.title.localeCompare(b.title))
+      : movies;
+  }, [sort, movies]);
 
-    lastSearch.current = searchValue.trim();
-    setMovies(await searchMovies(searchValue));
-  };
-
-  return { movies, loading, getMovies };
+  return { movies: sortedMovies, getMovies, loading };
 }
