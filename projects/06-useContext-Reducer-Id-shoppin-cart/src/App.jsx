@@ -1,39 +1,31 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import Products from "./components/Products";
 import { products as firstProducts } from "./mocks/products.json";
+import { filterByCategory, filterByRange } from "./helpers/filterProducts";
 
 function useProducts() {
-  const [products, setProducts] = useState([]);
-  const firstProductFeching = useRef([]);
-  const [category, setCategory] = useState(null);
-
-  useEffect(() => {
-    firstProductFeching.current = firstProducts;
-    setProducts(firstProducts);
-  }, []);
+  const [products, setProducts] = useState(firstProducts);
+  const [category, setCategory] = useState("all");
 
   const listProductsBeCategori = (category) => {
-    if (!category) return;
-
-    const itemFilteres = firstProductFeching.current.filter(
-      (product) => product.category === category
-    );
-    setProducts(itemFilteres);
-    setCategory(category);
-    console.log("has seleccionado la categoria: ", category);
+    if (category === "all") {
+      setProducts(firstProducts);
+      setCategory(category);
+    } else {
+      setProducts(filterByCategory(firstProducts, category));
+      setCategory(category);
+    }
   };
 
   const listProductsBeRange = (range) => {
-    if (!category) {
-      let itemFilteres = firstProductFeching.current.filter(
-        (product) => product.price >= range
-      );
-      setProducts(itemFilteres);
+    if (category === "all") {
+      setProducts(filterByRange(firstProducts, range));
+      setCategory(category);
+      return;
     } else {
-      let itemFilteres = firstProductFeching.current.filter(
-        (product) => product.price >= range && product.category === category
+      setProducts(
+        filterByRange(filterByCategory(firstProducts, category), range)
       );
-      setProducts(itemFilteres);
     }
   };
 
@@ -46,6 +38,7 @@ function App() {
   const [rangeValue, setRangeValue] = useState(0);
 
   const categories = [
+    "all",
     "home-decoration",
     "laptops",
     "smartphones",
@@ -66,13 +59,13 @@ function App() {
   return (
     <div className="App">
       <form>
-        <fieldset>
+        {/* <fieldset>
           <legend>Encuentra lo que deceas</legend>
           <label>
             Producto:
             <input type="text" />
           </label>
-        </fieldset>
+        </fieldset> */}
 
         <fieldset>
           <label>
@@ -83,7 +76,9 @@ function App() {
               }}
             >
               {categories.map((category) => (
-                <option value={category}>{category}</option>
+                <option key={category} value={category}>
+                  {category}
+                </option>
               ))}
             </select>
           </label>
@@ -101,7 +96,7 @@ function App() {
           </label>
           <p>Valor seleccionado: {rangeValue}</p>
         </fieldset>
-        <button type="submit">Buscar</button>
+        {/* <button type="submit">Buscar</button> */}
       </form>
       <Products products={products} />
     </div>
