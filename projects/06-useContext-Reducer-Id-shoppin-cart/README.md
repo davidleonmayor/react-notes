@@ -5,8 +5,7 @@ Ecommerce
 - [x] Muestra una lista de productos que vienen de un JSON
 - [x] Añade un filtro por categoría
 - [x] Añade un filtro por precio
-
-Haz uso de useContext para evitar pasar props innecesarias.
+- [x] Haz uso de useContext para evitar pasar props innecesarias.
 
 Carrito:
 
@@ -18,7 +17,15 @@ Carrito:
 
 # WORKFLOW
 
-- [X] recrear logica obtimiada del filtrado de productos
-- [ ] separar funcionalidades complejas reutilizables como hooks
+- [x] recrear logica obtimiada del filtrado de productos
 - [ ] crear contexto para datos globales del carrito y de productos, crear Reducer con las acciones para modificarlo
 - [ ] separar elementos de la UI en componentes
+
+# Logica del carrito de compras
+
+Deberemos crear un componente "cart" que listara los elementos y un estado para actualizar los elementos. Se probera de un contexto el cual contendra el estado del carrito y las funciones para modificarlo.
+
+- [x] crear componente cart
+- [ ] crear contexto para el carrito
+- [ ] crear reducer para el carrito
+- [ ] crear funciones para modificar el carrito

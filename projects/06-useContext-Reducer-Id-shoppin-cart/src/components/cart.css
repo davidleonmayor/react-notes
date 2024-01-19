@@ -1,0 +1,48 @@
+.carts {
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: grid;
+  overflow-y: scroll;
+  gap: 1rem;
+
+  min-width: 250px;
+  max-width: 500px;
+  max-height: 100vh; /* Ajusta este valor según tus necesidades */
+  margin: 0 auto;
+
+  background-color: #110606;
+}
+
+.product-in-cart {
+  display: inline-block;
+  width: auto;
+  background-color: #000;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.product-in-cart img {
+  max-width: 250px;
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: 4px;
+  background: #fff;
+}
+.product-info {
+  max-width: 200px; /* Ajusta este valor según tus necesidades */
+}
+
+.button-top-right {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 999;
+}
+
+@media (min-width: 600px) {
+  .carts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
