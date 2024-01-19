@@ -1,7 +1,12 @@
-import ProductsProvider from "./productsContext";
+import ProductsProvider from "./products";
+import CartProvider from "./cart";
 
 function IndexProvider({ children }) {
-  return <ProductsProvider>{children}</ProductsProvider>;
+  return (
+    <CartProvider>
+      <ProductsProvider>{children}</ProductsProvider>;
+    </CartProvider>
+  );
 }
 
 export default IndexProvider;

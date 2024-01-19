@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { ProductsContext } from "../context/productsContext";
+import { ProductsContext } from "../context/products";
 import { filterByCategory, filterByRange } from "../helpers/filterProducts";
 import { products as initialProducts } from "../mocks/products.json";
 
