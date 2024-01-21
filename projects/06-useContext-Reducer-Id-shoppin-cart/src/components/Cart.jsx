@@ -4,7 +4,8 @@ import { RemoveFromCartIcon, CartIcon } from "./Icons";
 import "./Cart.css";
 
 function ProductInCart({ product }) {
-  const { removeToCart } = useContext(CartContext);
+  const { removeToCart, incrementQuantity, decreaseQuantity } =
+    useContext(CartContext);
 
   const [quantity, setQuantity] = useState(1);
 
@@ -22,19 +23,10 @@ function ProductInCart({ product }) {
         <RemoveFromCartIcon />
       </div>
       <span>
-        <button onClick={() => setQuantity((prevState) => prevState + 1)}>
-          +
-        </button>
-        {quantity}
-        <button
-          onClick={() =>
-            setQuantity((prevState) =>
-              prevState > 1 ? prevState - 1 : prevState
-            )
-          }
-        >
-          -
-        </button>
+        {/* <button onClick={() => setQuantity((prevState) => prevState + 1)}> */}
+        <button onClick={() => incrementQuantity(product)}>+</button>
+        {product.quantity}
+        <button onClick={() => decreaseQuantity(product)}>-</button>
       </span>
     </div>
   );
