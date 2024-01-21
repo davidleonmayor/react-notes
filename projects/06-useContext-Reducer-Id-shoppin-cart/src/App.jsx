@@ -4,11 +4,11 @@ import Cart from "./components/Cart";
 
 function App() {
   return (
-    <div className="App">
-      <Cart />
+    <>
       <FilterVar />
+      <Cart />
       <Products />
-    </div>
+    </>
   );
 }
 

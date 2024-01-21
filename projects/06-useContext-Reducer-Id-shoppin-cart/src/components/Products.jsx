@@ -2,16 +2,20 @@ import { useContext } from "react";
 import { AddToCartIcon } from "./Icons.jsx";
 import { ProductsContext } from "../context/products.jsx";
 import { CartContext } from "../context/cart.jsx";
-
 import "./Products.css";
 
 function Products() {
   const { products } = useContext(ProductsContext);
-  const { setCartContent } = useContext(CartContext);
+  const { addToCart } = useContext(CartContext);
 
-  const handleAddToCart = () => {
-    setCartContent(products[0]); // TODO: cambiar por el producto seleccionado
+  const handleAddToCart = (product) => {
+    addToCart({
+      id: product.id,
+      thumbnail: product.thumbnail,
+      title: product.title,
+    });
   };
+
   return (
     <section className="products">
       {products.map((product) => (
@@ -20,7 +24,7 @@ function Products() {
           <div>
             <span>{product.title}</span> - <span>$ {product.price}</span>
           </div>
-          <div onClick={handleAddToCart}>
+          <div onClick={() => handleAddToCart(product)}>
             <AddToCartIcon />
           </div>
         </aside>

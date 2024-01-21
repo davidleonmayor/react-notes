@@ -1,20 +1,40 @@
 import { useState, useContext } from "react";
 import { CartContext } from "../context/cart";
 import { RemoveFromCartIcon, CartIcon } from "./Icons";
-
 import "./Cart.css";
 
 function ProductInCart({ product }) {
+  const { removeToCart } = useContext(CartContext);
+
+  const [quantity, setQuantity] = useState(1);
+
+  const handleButtonRemove = (product) => {
+    removeToCart(product);
+  };
+
   return (
     <div className="product-in-cart">
       <img src={product.thumbnail} alt={product.thumbnail} />
       <div className="product-info">
         <span>{product.title}</span> - <span>$ {product.price}</span>
       </div>
-      <RemoveFromCartIcon />
+      <div onClick={() => handleButtonRemove(product)}>
+        <RemoveFromCartIcon />
+      </div>
       <span>
-        {product.quality}
-        <button>+</button>
+        <button onClick={() => setQuantity((prevState) => prevState + 1)}>
+          +
+        </button>
+        {quantity}
+        <button
+          onClick={() =>
+            setQuantity((prevState) =>
+              prevState > 1 ? prevState - 1 : prevState
+            )
+          }
+        >
+          -
+        </button>
       </span>
     </div>
   );

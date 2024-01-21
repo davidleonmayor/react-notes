@@ -2,7 +2,6 @@ import { createContext, useState, useReducer } from "react";
 import { products } from "../mocks/products.json";
 
 function cartReducer(state, action) {
-  // console.info("action", action);
   switch (action.type) {
     case "ADD_TO_CART":
       return [...state, action.payload];
@@ -14,19 +13,25 @@ function cartReducer(state, action) {
 }
 
 const CartContext = createContext();
-
 function CartProvider({ children }) {
-  const initialCartState = products.slice(0, 1);
+  const initialCartState = []; // products.slice(0, 1);
   const [cartContent, dispatch] = useReducer(cartReducer, initialCartState);
 
-  const setCartContent = (product) => {
+  const addToCart = (product) => {
+    if (cartContent.find((item) => item.id === product.id)) {
+      return;
+    }
     dispatch({ type: "ADD_TO_CART", payload: product });
   };
 
-  // const [cartContent, setCartContent] = useState(initialCartState);
+  const removeToCart = (product) => {
+    dispatch({ type: "REMOVE_FROM_CART", payload: product });
+  };
+
   const value = {
     cartContent,
-    setCartContent,
+    addToCart,
+    removeToCart,
   };
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
