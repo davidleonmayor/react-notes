@@ -1,6 +1,6 @@
-import React, { createContext, useReducer, useState, ReactNode } from "react";
+import React, { createContext, useReducer, ReactNode } from "react";
 
-interface Task {
+export interface Task {
   id: number;
   title: string;
   description: string;
@@ -32,6 +32,9 @@ function reducer(state: Task[], action: Iaction): Task[] | undefined {
       {
         return state.filter((task) => task.id !== action.payload.id);
       }
+      break;
+    case "REMOVE_ALL_TASK":
+      return [];
       break;
     // default: {
     // }
@@ -71,10 +74,13 @@ const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     dispatch({ type: "REMOVE_TASK", payload: task });
   };
 
+  const removeALLTask = () => dispatch({ type: "REMOVE_ALL_TASK" });
+
   const value = {
     tasks,
     addTask,
     removeTask,
+    removeALLTask,
   };
 
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;

@@ -1,16 +1,9 @@
-import React, { useContext } from "react";
-import { /*Button,*/ IconButton, Flex } from "@chakra-ui/react";
-import {
-  Moon,
-  Sun,
-  Check,
-  Garbage,
-  // MagnifyingGlass,
-  Plus,
-} from "../assets/Icons";
-import { useColorMode } from "@chakra-ui/react";
+import { useContext, useRef } from "react";
+import { useColorMode, IconButton, Flex } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { Moon, Sun, Check, Garbage, Plus } from "../assets/Icons";
 import { TaskContext } from "../context/task";
+import { ModalTaskContext } from "../context/ModalTaskContext";
 
 const MotionIconButton = motion(IconButton);
 
@@ -27,22 +20,32 @@ function ThemeToggleButton() {
 }
 
 function MenuOptions() {
-  const { addTask } = useContext(TaskContext);
+  const { onOpen } = useContext(ModalTaskContext);
+  const { addTask, removeALLTask } = useContext(TaskContext);
+
+  const identificadorTarea = useRef<number>(3);
 
   const handlePlusButton = () => {
+    const newID = identificadorTarea.current + 1;
     addTask({
+      id: newID,
       title: "TASK",
       description: "task",
       completed: false,
     });
+    identificadorTarea.current = newID; // Update the ref after using it
+    onOpen();
   };
+
   return (
     <>
       <ThemeToggleButton />
 
       <Flex direction="row" justify="space-between" align="center">
         <Check />
-        <Garbage />
+        <div onClick={removeALLTask}>
+          <Garbage />
+        </div>
         <div onClick={handlePlusButton}>
           <Plus />
         </div>

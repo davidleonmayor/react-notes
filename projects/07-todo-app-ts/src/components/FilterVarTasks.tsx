@@ -1,6 +1,10 @@
+import { useContext } from "react";
 import { Input, Flex } from "@chakra-ui/react";
+import { TaskContext } from "../context/task";
 
 function FilterVarTasks() {
+  const { removeALLTask } = useContext(TaskContext);
+
   const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFilter(event.target.value as Filter);
   };

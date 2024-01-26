@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { TaskContext } from "../context/task";
+import { useContext } from "react";
 import {
   Card,
   // CardHeader,
@@ -15,13 +14,22 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { Pencil, Garbage } from "../assets/Icons";
+import { TaskContext } from "../context/task";
+import { ModalTaskContext } from "../context/ModalTaskContext";
 
 function Task(props) {
+  const { onOpen, setTask } = useContext(ModalTaskContext);
   const { removeTask } = useContext(TaskContext);
+
   const { id, title, description, completed } = props;
 
+  const handleOpenTaskContent = () => {
+    setTask({ id, title, description });
+    onOpen();
+  };
+
   return (
-    <Flex align="center">
+    <Flex onClick={handleOpenTaskContent} align="center">
       <Icon viewBox="0 0 200 200" color="red.500">
         <path
           fill="currentColor"
@@ -60,7 +68,7 @@ function Tasks() {
       <CardBody>
         <Stack divider={<StackDivider />} spacing="4">
           {tasks.map((task) => (
-            <Task {...task} />
+            <Task key={task.id} {...task} />
           ))}
         </Stack>
       </CardBody>

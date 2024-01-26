@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -9,9 +10,11 @@ import {
   useDisclosure,
   Button,
 } from "@chakra-ui/react";
+import { ModalTaskContext } from "../context/ModalTaskContext";
 
 function ModalTaskContent() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose, task } = useContext(ModalTaskContext);
+
   return (
     <>
       <Button onClick={onOpen}>Open Modal</Button>
@@ -19,13 +22,10 @@ function ModalTaskContent() {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>{task.title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
+            <p>{task.description}</p>
           </ModalBody>
 
           <ModalFooter>
