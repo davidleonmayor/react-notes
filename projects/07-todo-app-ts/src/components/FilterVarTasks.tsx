@@ -1,24 +1,41 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Input, Flex } from "@chakra-ui/react";
-import { TaskContext } from "../context/task";
+import { type ITaskContext, Ifilter, TaskContext } from "../context/task";
 
 function FilterVarTasks() {
-  const { removeALLTask } = useContext(TaskContext);
+  const { filterTask } = useContext(TaskContext) as ITaskContext;
+  const [filter, setFilter] = useState<Ifilter>({
+    option: "all",
+    value: "",
+  });
 
-  const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilter(event.target.value as Filter);
+  const handleFilter = (
+    event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+  ) => {
+    setFilter({
+      ...filter,
+      [event.target.name]: event.target.value,
+    });
   };
+
+  useEffect(() => {
+    console.log("filtro: ", filter);
+    filterTask(filter);
+  }, [filter]);
 
   return (
     <Flex gap={5}>
-      {/* <select value={filter} onChange={handleFilter}> */}
-      <select>
+      <select name="option" value={filter.option} onChange={handleFilter}>
         <option value="all">All</option>
         <option value="completed">Completed</option>
         <option value="uncompleted">Uncompleted</option>
       </select>
-      {/* <span> Filter</span> */}
-      <Input placeholder="Basic usage" />
+      <Input
+        name="value"
+        value={filter.value}
+        onChange={handleFilter}
+        placeholder="workout"
+      />
     </Flex>
   );
 }

@@ -51,6 +51,33 @@ function Check() {
     />
   );
 }
+// function Garbage({ handleGarbageButton }) {
+//   return (
+//     <IconButton
+//       onClick={(e) => {
+//         e.stopPropagation();
+//         handleGarbageButton(e);
+//       }}
+//       icon={
+//         <img
+//           width="32px"
+//           height="32px"
+//           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAE30lEQVR4nNVaa4iVVRRdo2ml1kBQljq+hR6KFeWIUqkRFJXZO6NISBGCMrIC0x8qjaZkaWpWltmDlAIr7R1lT2t6YC9RDCsxLZ0QSovRcm5sWCc2m32++z3udW4LPgbWOnt/+9x7ztn77DtA5dAZwDwAuwCUyjw7AcylTc3hvhQTsM8c1CB2MrgRKcaOVN9MzaHEp1rjC0HW8JMA9udYNpV69gNYUXQ/zWnHCZTMc2/W4HsDeBbAXjqQv33QfuhjYpHYGsoZ9TLHZxuAxWh/LDHfjsTYM8ngKQ7cAGAAag8DAXzCGGXvRvEbB52J2sVZjHFP0qDS/+yJ4sMaCK6U8vkAKfBlhix9uDCSMX2RxWgVjW5C7WACY3oui9HsvEmoimhiTLOyGN1Io+dRO3iBMd2QxaiRRhuddbqG2d9DRwDLyrzsWgDLAXSK6D25tIcb/ivGJLGlxnGqYKtT/CLyUyN2p1D/OsH3Ro45LaLfQX2h4upU4SqxZUJIjj0Udyc5KRk8DKC+LcHvDxzTP6IvdT6sXuRakAMbaHye4q4g91rE5kTqvyb43c0x3SP669QvV9xoch/nmMd/ddckxZ1ObnPE5hjq+xL8hiXSLaJvoT5UcZPJrcwxD8yg8Xwn0FYAHRybDqyY28zeCqhTesy+le84VvH3k5ueZyLX0PhFw7eQl3Xr4S/qXRytK7U/I7YNkYLwZfJX55gHzqDxJsM3kz8nYhcmeryjnRAJNOBc6p8afjN5WdqZ0ZVLoJX5IW358iP1fo7Wn5qcXGnLkI6MoS1hX6Vu8fR1SoWZEZvvqA92tCHUvo3YznJKozD5n1EA79HJBYqbSO7piE1zQgYeHlk6Ac9Qv1lxF5JbX2AeeIxOblHcGHJyd/HwLnUZZ3E+tXcith9Rl7wRcCu5RwvMA3fRyYOK61umS7iW+lhHu4yanEIedlHXXZuHyElVkRvj6ORVs/kOcPN5R2w4DMY72vUJd4qj6fOgOVxCppcPITdOpZOthv+evBSJFo9Tk71kMYna8gzv2pbwrtQ4EsA/AP42ZfebdH6xYxMq5CmOdrtT2QZcQu0NxXXmuw8BOAoFEarVQYpbRk42okVTQjkxI+HmeRu1hxV3coopqOjW8T/9ucg844+9J+O1jLrVpjiYHSokHTMBY51vKjcV0Jssi4CpyLznjp1CTJWYRTiD59BGpp65U3FRyYlcY4SuXC4+tw7ybYEiYsuktnnASXsA3Tj31SMISzoyL6OwtxdUn3DvGU5Nj2GI1tescTXyV6NsmV8nuhRGurz9FrsK2yg3rep3j6xVql0aq4hbD7yhzLc6EkAAPMWkFfBapqUIJI5+mxXqnBNE1WLPiujBByruPQIWwxel8rI5k8EYnKDv5YZGMv0pxQ8tcq3Mh1E9Sstif5Wy+GExeynmLTZFWUMgvTc7JGKvLcmEBnUr+sOWGPZ36RfaUYLtzv9Gn2UQnH8l9vWKY7NRIjZFfjuRm+QeAzx0/0kn/nWM0VjpLbgU5eXfFEPpK7xv+bNPt0P0tfYwG1Ef6WfX0Ve5uUhgN7fCfCnvKdGtyQfdepbdVbdSrtpHXHyuE0Hy2XfJqYBTfJR34iiNUrm9X+us26K36zvKDU8XRXR2fh+PZmucnhLSQTS8tG+m2V2sCv/BIPylLZP8C57pwn24OqiAAAAAASUVORK5CYII="
+//         ></img>
+//       }
+//       aria-label="Add new item"
+//       variant="unstyled"
+//       _hover={{ bg: "none" }}
+//       _active={{
+//         bg: "none",
+//         transform: "none",
+//         borderColor: "transparent",
+//       }}
+//       _focus={{ boxShadow: "none" }}
+//       marginBottom="6px" // Ajusta este valor según sea necesario
+//     />
+//   );
+// }
 
 function Garbage() {
   return (

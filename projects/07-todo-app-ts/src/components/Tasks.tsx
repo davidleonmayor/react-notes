@@ -14,23 +14,35 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { Pencil, Garbage } from "../assets/Icons";
-import { TaskContext } from "../context/task";
-import { ModalTaskContext } from "../context/ModalTaskContext";
+import { type ITaskContext, type ITask, TaskContext } from "../context/task";
+import {
+  type IModalContext,
+  ModalTaskContext,
+} from "../context/ModalTaskContext";
 
-function Task(props) {
-  const { onOpen, setTask } = useContext(ModalTaskContext);
-  const { removeTask } = useContext(TaskContext);
-
-  const { id, title, description, completed } = props;
+function Task(props: ITask) {
+  const { onOpen, updateModalContent, /*mode,*/ setMode } = useContext(
+    ModalTaskContext
+  ) as IModalContext;
+  const { removeTask } = useContext(TaskContext) as ITaskContext;
 
   const handleOpenTaskContent = () => {
-    setTask({ id, title, description });
+    updateModalContent(props);
+    console.log(props);
+    setMode("update");
     onOpen();
+  };
+
+  const handleGarbageButton = () => {
+    removeTask(props);
   };
 
   return (
     <Flex onClick={handleOpenTaskContent} align="center">
-      <Icon viewBox="0 0 200 200" color="red.500">
+      <Icon
+        viewBox="0 0 200 200"
+        color={props.completed === "completed" ? "green.500" : "red.500"}
+      >
         <path
           fill="currentColor"
           d="M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0"
@@ -39,16 +51,23 @@ function Task(props) {
 
       <Box>
         <Heading size="xs" textTransform="uppercase">
-          {title}
+          {props.title}
         </Heading>
         <Text pt="2" fontSize="sm">
-          {description}
+          {props.description}
         </Text>
       </Box>
       <Spacer />
       <Flex align="center" direction="column">
-        <Pencil />
-        <div onClick={() => removeTask(props)}>
+        {/* <div onClick={(e) => e.stopPropagation()}>
+          <Pencil />
+        </div> */}
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            handleGarbageButton();
+          }}
+        >
           <Garbage />
         </div>
       </Flex>
@@ -57,7 +76,7 @@ function Task(props) {
 }
 
 function Tasks() {
-  const { tasks } = useContext(TaskContext);
+  const { tasks } = useContext(TaskContext) as ITaskContext;
 
   return (
     <Card>
