@@ -1,13 +1,13 @@
-import { useContext } from "react";
+// import { useContext } from "react";
 import { Input, Flex } from "@chakra-ui/react";
-import { TaskContext } from "../context/task";
+// import { type ITaskContext, TaskContext } from "../context/task";
 
 function FilterVarTasks() {
-  const { removeALLTask } = useContext(TaskContext);
+  // const { removeALLTask } = useContext(TaskContext) as ITaskContext;
 
-  const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilter(event.target.value as Filter);
-  };
+  // const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setFilter(event.target.value as Filter);
+  // };
 
   return (
     <Flex gap={5}>

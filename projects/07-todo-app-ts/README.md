@@ -4,10 +4,9 @@ TODO: hacer que la modal se abra con el contenido cuando se oprime en el boton d
 
 # Progreso
 
-creado componente y usando el contexto en el boton y el componente de la tarea.
-Falta que al abrir la modal pueda escribir el contenido de la tarea y que se guarde en el estado global.
+ERROR: las funcionalidades se ejecutan bien pero, al oprimir el boton cerrar del modal, independientemente siempre crea una nueva tarea.
 
 - [x] crear componente modal
 - [x] crear contexto global
 - [x] crear funcion para abrir, cerrar modal
-- [ ] crear funcion para actualizar el contenido de la modal
+- [x] crear funcion para actualizar el contenido de la modal // se actualiza al pasarle el contenido de la tarea al componente modal

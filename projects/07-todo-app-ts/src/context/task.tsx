@@ -1,90 +1,103 @@
-import React, { createContext, useReducer, ReactNode } from "react";
+import React, { createContext, useReducer } from "react";
 
-export interface Task {
+export interface ITask {
   id: number;
   title: string;
   description: string;
   completed: boolean;
 }
 
-interface TaskProviderProps {
-  children: ReactNode;
+export interface ITaskContext {
+  tasks: ITask[];
+  addTask: (task: ITask) => void;
+  removeTask: (task: ITask) => void;
+  removeAllTask: () => void;
+  updateTask: (task: ITask) => void;
 }
 
-interface TaskContextType {
-  tasks: Task[];
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-}
-
-interface Iaction {
+interface IAction {
   type: string;
-  payload: Task;
+  payload?: ITask;
 }
 
-function reducer(state: Task[], action: Iaction): Task[] | undefined {
+interface ITaskProviderProps {
+  children: React.ReactNode;
+}
+
+function reducer(state: ITask[], action: IAction): ITask[] {
   switch (action.type) {
     case "ADD_TASK":
       {
-        return [...state, action.payload];
+        if (action.payload) return [...state, action.payload];
+        return state;
       }
       break;
     case "REMOVE_TASK":
       {
-        return state.filter((task) => task.id !== action.payload.id);
+        if (action.payload) {
+          return state.filter((task) => task.id !== action.payload.id);
+        }
+        return state;
+      }
+      break;
+    case "UPDATE_TASK":
+      {
+        const eje = state.map((task) =>
+          task.id === action.payload?.id ? action.payload : task
+        );
+        console.log(eje);
+        return eje;
       }
       break;
     case "REMOVE_ALL_TASK":
-      return [];
+      {
+        return [];
+      }
       break;
-    // default: {
-    // }
+    default:
+      return state;
   }
 }
 
-const TaskContext = createContext<TaskContextType | undefined>(undefined);
+const TaskContext = createContext<ITaskContext | undefined>(undefined);
 
-const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
-  const initialState: Task[] = [
-    {
-      id: 1,
-      title: "Learn React",
-      description: "Learn React and TypeScript",
-      completed: false,
-    },
-    {
-      id: 2,
-      title: "Learn React Native",
-      description: "Learn React Native and TypeScript",
-      completed: false,
-    },
-    {
-      id: 3,
-      title: "Learn Node",
-      description: "Learn Node and TypeScript",
-      completed: false,
-    },
+function TaskProvider({
+  children,
+}: ITaskProviderProps): React.ReactElement<ITaskContext | undefined> {
+  const initialState: ITask[] = [
+    // {
+    //   id: 1,
+    //   title: "Learn React Native",
+    //   description: "Learn React Native and TypeScript",
+    //   completed: false,
+    // },
   ];
   const [tasks, dispatch] = useReducer(reducer, initialState);
 
-  const addTask = (task: Task) => {
+  const addTask = (task: ITask) => {
     dispatch({ type: "ADD_TASK", payload: task });
   };
 
-  const removeTask = (task: Task) => {
+  const removeTask = (task: ITask) => {
     dispatch({ type: "REMOVE_TASK", payload: task });
   };
 
-  const removeALLTask = () => dispatch({ type: "REMOVE_ALL_TASK" });
+  const updateTask = (task: ITask) => {
+    dispatch({ type: "UPDATE_TASK", payload: task });
+  };
+
+  const removeAllTask = () => dispatch({ type: "REMOVE_ALL_TASK" });
 
   const value = {
     tasks,
     addTask,
     removeTask,
-    removeALLTask,
+    updateTask,
+    removeAllTask,
   };
 
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;
-};
+}
 
 export default TaskProvider;
 export { TaskContext };

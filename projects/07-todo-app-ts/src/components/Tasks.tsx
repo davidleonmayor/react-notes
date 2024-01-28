@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import {
   Card,
   // CardHeader,
@@ -14,22 +14,30 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { Pencil, Garbage } from "../assets/Icons";
-import { TaskContext } from "../context/task";
+import { type ITaskContext, type ITask, TaskContext } from "../context/task";
+import { type IModalContext } from "../context/ModalTaskContext";
 import { ModalTaskContext } from "../context/ModalTaskContext";
 
-function Task(props) {
-  const { onOpen, setTask } = useContext(ModalTaskContext);
-  const { removeTask } = useContext(TaskContext);
-
-  const { id, title, description, completed } = props;
+function Task(props: ITask) {
+  const { onOpen, updateModalContent, /*mode,*/ setMode } = useContext(
+    ModalTaskContext
+  ) as IModalContext;
+  const { removeTask } = useContext(TaskContext) as ITaskContext;
 
   const handleOpenTaskContent = () => {
-    setTask({ id, title, description });
+    updateModalContent(props);
+    console.log(props);
+    setMode("update");
     onOpen();
+  };
+
+  const handleGarbageButton = () => {
+    removeTask(props);
   };
 
   return (
     <Flex onClick={handleOpenTaskContent} align="center">
+      {/* props.completed */}
       <Icon viewBox="0 0 200 200" color="red.500">
         <path
           fill="currentColor"
@@ -39,16 +47,16 @@ function Task(props) {
 
       <Box>
         <Heading size="xs" textTransform="uppercase">
-          {title}
+          {props.title}
         </Heading>
         <Text pt="2" fontSize="sm">
-          {description}
+          {props.description}
         </Text>
       </Box>
       <Spacer />
       <Flex align="center" direction="column">
         <Pencil />
-        <div onClick={() => removeTask(props)}>
+        <div onClick={handleGarbageButton}>
           <Garbage />
         </div>
       </Flex>
@@ -57,7 +65,7 @@ function Task(props) {
 }
 
 function Tasks() {
-  const { tasks } = useContext(TaskContext);
+  const { tasks } = useContext(TaskContext) as ITaskContext;
 
   return (
     <Card>
